@@ -2,6 +2,7 @@
 using namespace std;
 int dayvs[12]={31,60,91,121,152,182,213,244,274,305,335,366};
 int daynvs[12]={31,59,90,120,151,181,212,243,273,304,334,365};
+int a,b;
 struct Date{
     int day, month, year,dayd, monthd, yeard;
     
@@ -53,6 +54,12 @@ struct Date{
         return (day1-day+dayb1-dayb+abs(year-year1)*365)+2; 
         }
 	};
+	void coutDate(){
+	if(year!=yeard)	
+	cout<<day<<"."<<month<<"."<<year<<"-"<<dayd<<"."<<monthd<<"."<<yeard;
+	else
+	cout<<day<<"."<<month<<"-"<<dayd<<"."<<monthd<<"."<<yeard;
+	};
 };
 bool operator==(Date &BirthDate,Date &Fs){
     return Fs.day==BirthDate.day&&Fs.month==BirthDate.month&&Fs.year==BirthDate.year;
@@ -92,7 +99,7 @@ int duration;
 struct Car{
 	string model;
 	int price;
-	Date Rdates[100];
+	vector<Date> Rdates;
 	int count;
 	int number;
 	
@@ -126,21 +133,7 @@ struct Car{
 	};
 	
 	void book(Date insert){
-		bool ovrlp=false;
-		if(count==0){
-		Rdates[0]=insert;
-		count++;
-		}
-		else{	
-			for(int i=0;i<count;i++){
-				if(overlap(Rdates[i],insert))
-					ovrlp=true;
-			}
-			if(ovrlp)
-			cout<<"This date is reserved!";
-			else 
-			Rdates[count]=insert;	
-		}	
+		Rdates.push_back(insert);
 	};
 	
 	int totalPrice(Date ins){
@@ -157,26 +150,48 @@ struct Car{
 	}
 	
 	bool dateAvailable(Date insert){
-		for(int i=0;i<count;i++){
+		for(int i=0;i<Rdates.size();i++){
 				if(overlap(Rdates[i],insert))
 					return false;
 		}
 		return true;	
 	};
+	
+	void coutDates(){
+		for(int i=0;i<Rdates.size();i++){
+			cout<<i+1<<". ";
+			Rdates[i].coutDate();
+			cout<<endl;
+		}
+	};
+	
+	void eraseDates(int b){
+	auto itr = Rdates.begin(); 
+	Rdates.erase(itr+b);
+	}
+	
+	
 };
 
 void cindate(){
 	while(true){
-	cin>>insert.day;
-	cin>>insert.month;
-	cin>>insert.year;
-	cin>>insert.dayd;
-	cin>>insert.monthd;
-	cin>>insert.yeard;
-	if(!insert.isValidDate())
-	cout<<"Invalid Date, write properly!!!!"<<endl;
-	else
-	break;
+		cin>>insert.day;
+		cin>>insert.month;
+		cin>>insert.year;
+		cin>>insert.dayd;
+		cin>>insert.monthd;
+		cin>>insert.yeard;
+		if(!insert.isValidDate())
+		cout<<"Invalid Date, write properly!!!!"<<endl;
+		else{
+			if(insert.year<insert.yeard)
+			break;
+			else if(insert.year==insert.yeard&&insert.month<insert.monthd)
+				break;
+				else if(insert.day<insert.dayd&&insert.month==insert.monthd)
+					break;
+		cout<<"Invalid Date, write properly!!!!"<<endl;					
+		} 
 	}
 }	
 
@@ -204,38 +219,96 @@ int main(){
 	
 	vector<Car> Cars = {mlka, eshka, sunshine};
 	vector<Car> AvailableCars;
-	cout<<"Hello, welcome to car rental service!!!"<<endl
+	cout<<"Hello, welcome to car rental service!!!"<<endl;
 	while(true){
-		cout<<"Which date you want to reserve?"<<endl<<"Enter date of start and end in a following format: day|month|year"<<endl;
-		cindate();
-		cout<<"List of cars available for your date:"<<endl;
-		
-		for(int i=0;i<CarsNumber;i++){
-			if(Cars[i].dateAvailable(insert))
-				AvailableCars.push_back(Cars[i]);
-		}
-		for(int i=0;i<AvailableCars.size();i++){//showing available cars
-				cout<<i+1<<". "<<AvailableCars[i].model<<endl;
-		}
-		
-		int choice;
-		cout<<endl<<"Choose one!"<<endl;
-		cin>>choice;
-		cout<<"Nice choice "<<AvailableCars[choice-1].model<<endl;
-		switch(AvailableCars[choice-1].number){
-			case 1:
-			Cars[0].book(insert);
-			cout<<"total price:"<<Cars[0].totalPrice(insert)<<endl<<endl;
+			
+			cout<<"1. Book car"<<endl<<"2. Delete reservation"<<endl<<"3. Update reservation for a car"<<endl<<"4. See reservations fo a car"<<endl;
+			cin>>a;
+			switch(a){
+			case 1:	
+				cout<<"Which date you want to reserve?"<<endl<<"Enter date of start and end in a following format: day|month|year"<<endl;
+				cindate();
+				cout<<"List of cars available for your date:"<<endl;
+				
+				for(int i=0;i<CarsNumber;i++){
+					if(Cars[i].dateAvailable(insert))
+						AvailableCars.push_back(Cars[i]);
+				}
+				for(int i=0;i<AvailableCars.size();i++){//showing available cars
+						cout<<i+1<<". "<<AvailableCars[i].model<<endl;
+				}
+				
+				int choice;
+				cout<<endl<<"Choose one!"<<endl;
+				cin>>choice;
+				cout<<"Nice choice "<<AvailableCars[choice-1].model<<endl;
+					Cars[AvailableCars[choice-1].number-1].book(insert);
+					cout<<"total price:"<<Cars[AvailableCars[choice-1].number-1].totalPrice(insert)<<endl<<endl;
+				AvailableCars.clear();
 			break;
 			case 2:
-			Cars[1].book(insert);
-			cout<<"total price:"<<Cars[1].totalPrice(insert)<<endl<<endl;
+				cout<<"Which car reservation you want to delete?"<<endl<<"1. Mercedes ML350"<<endl<<"2. Mercedes E320"<<endl<<"3. Mitsubishi Eclipse"<<endl;
+				cin>>a;
+					cout<<"Choose date you want to delete:"<<endl;
+					Cars[a-1].coutDates();
+					cin>>b;
+					if(b<=Cars[a-1].Rdates.size()){
+						Cars[a-1].eraseDates(a-1);
+						cout<<"Deleted succefully!"<<endl<<endl;
+					}	
+					else
+						cout<<"No cush date";
 			break;
+			
 			case 3:
-			Cars[2].book(insert);
-			cout<<"total price:"<<Cars[2].totalPrice(insert)<<endl<<endl;
+				cout<<"Which car reservation you want to update?"<<endl<<"1. Mercedes ML350"<<endl<<"2. Mercedes E320"<<endl<<"3. Mitsubishi Eclipse"<<endl<<"4. Cancel"<<endl;
+				cin>>a;
+				switch(a){
+				case 1:
+					mlka.coutDates();
+					cout<<"Chose date you want to update"<<endl;
+					cin>>a;
+					mlka.eraseDates(a-1);
+					cout<<"New date:"<<endl;
+					cindate();
+					if(mlka.dateAvailable(insert))
+						mlka.Rdates.push_back(insert);
+					else
+						cout<<"Date is reserved";
+							
+				break;
+				case 2:
+					eshka.coutDates();
+					cout<<"Chose date you want to update"<<endl;
+					cin>>a;
+					eshka.eraseDates(a-1);
+					cout<<"New date:"<<endl;
+					cindate();
+					if(eshka.dateAvailable(insert))
+						eshka.Rdates.push_back(insert);
+					else
+						cout<<"Date is reserved";	
+				break;
+				case 3:
+					sunshine.coutDates();
+					cout<<"Chose date you want to update"<<endl;
+					cin>>a;
+					sunshine.eraseDates(a-1);
+					cout<<"New date:"<<endl;
+					cindate();
+					if(sunshine.dateAvailable(insert))
+						sunshine.Rdates.push_back(insert);
+					else
+						cout<<"Date is reserved";	
+				break;			
+				}	
 			break;
-		}
-		AvailableCars.clear();
-	}
+			case 4:
+				cout<<"Which car reservation you want to see?"<<endl<<"1. Mercedes ML350"<<endl<<"2. Mercedes E320"<<endl<<"3. Mitsubishi Eclipse"<<endl;
+				cin>>a;
+				cout<<endl;
+				Cars[a-1].coutDates();
+				cout<<endl;		
+			}
+	}		
 }
