@@ -195,30 +195,83 @@ void cindate(){
 	}
 }	
 
+/*void readfile(){
+	ifstream fin("Rdates.txt");
+	string line;
+	int lin, num;
+	if(!fin){
+		cerr<<"Error oppening file!"<<endl;
+	}
+	for(int i=0;i<3;i++){
+		getline(fin, line);
+		fin.close();
+		lin=stoi(line);
+		for(int k=0; k<line.size(); k+=6){
+			num=lin%10000;
+			lin=lin/10000;
+			insert.yeard=num;
+			num=lin%100;
+			lin=lin/100;
+			insert.monthd=num;
+			num=lin%100;
+			lin=lin/100;
+			insert.dayd=num;
+			num=lin%10000;
+			lin=lin/10000;
+			insert.year=num;
+			num=lin%100;
+			lin=lin/100;
+			insert.month=num;
+			num=lin%100;
+			lin=lin/100;
+			insert.day=num;
+			Cars[i].Rdates.push_back(insert);
+		}		
+	}
+}	
+
+void wrtiteFile(){
+	ofstream fout("decompressed.txt");
+	if (!fout) {
+        	cerr << "Error opening output file!" << endl;
+
+    	}
+	for(int i=0;i<3;i++){
+		for(int k=0; Cars[i].Rdates.size(); k++){
+			fout<<Cars[i].Rdates[k].day<<Cars[i].Rdates[k].month<<Cars[i].Rdates[k].year<<Cars[i].Rdates[k].dayd<<Cars[i].Rdates[k].monthd<<Cars[i].Rdates[k].yeard;
+		}
+		fout<<endl;		
+	}
+	fout.close();
+}*/
+
 int main(){
 	//initializing cars
 	int CarsNumber=3;
 	
 	Car mlka;
 	mlka.model="Mercedes ML350";
-	mlka.price=500;
+	mlka.price=200;
 	mlka.count=0;
 	mlka.number=1;
 	
 	Car eshka;
 	eshka.model="Mercedes E320";
-	eshka.price=300;
+	eshka.price=150;
 	eshka.count=0;
 	eshka.number=2;
 	
 	Car sunshine;
 	sunshine.model="Mitsubishi Eclipse";
-	sunshine.price=450;
+	sunshine.price=110;
 	sunshine.count=0;
 	sunshine.number=3;
 	
 	vector<Car> Cars = {mlka, eshka, sunshine};
 	vector<Car> AvailableCars;
+	
+	//readdile();
+	
 	cout<<"Hello, welcome to car rental service!!!"<<endl;
 	while(true){
 			
@@ -310,5 +363,6 @@ int main(){
 				Cars[a-1].coutDates();
 				cout<<endl;		
 			}
+	//writefile();				
 	}		
 }
