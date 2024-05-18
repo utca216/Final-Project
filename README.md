@@ -1,5 +1,10 @@
 # Car rental managing system
 ## Some general information
+| Model | Price |
+|-----:|-----------|
+| ML350| 200 |
+| E320| 150 |
+| Eclipse| 110 |
 In current configuration car park consists of a 3 cars: ML350, E320, Eclipse.
 Each car has it own price respectively:200, 150, 110.
 Program implements 2 structures 'Car' and 'Date'.
