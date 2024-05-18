@@ -7,7 +7,7 @@ struct Date{
     int day, month, year,dayd, monthd, yeard;
     
     bool isValidDate(){
-        if(day>0&&day<31&&month>0&&month<12){
+        if(day>0&&day<32&&month>0&&month<13){
             if(year%4==0){
                 if(month==2&&day>29)
                     return false;
@@ -16,7 +16,7 @@ struct Date{
                 if(month==2&&day>28)
                     return false;  
         }
-		if(dayd>0&&dayd<31&&monthd>0&&monthd<12){
+		if(dayd>0&&dayd<32&&monthd>0&&monthd<13){
 				if(year%4==0){
 					if(monthd==2&&dayd>29)
 						return false;
@@ -195,56 +195,6 @@ void cindate(){
 	}
 }	
 
-/*void readfile(){
-	ifstream fin("Rdates.txt");
-	string line;
-	int lin, num;
-	if(!fin){
-		cerr<<"Error oppening file!"<<endl;
-	}
-	for(int i=0;i<3;i++){
-		getline(fin, line);
-		fin.close();
-		lin=stoi(line);
-		for(int k=0; k<line.size(); k+=6){
-			num=lin%10000;
-			lin=lin/10000;
-			insert.yeard=num;
-			num=lin%100;
-			lin=lin/100;
-			insert.monthd=num;
-			num=lin%100;
-			lin=lin/100;
-			insert.dayd=num;
-			num=lin%10000;
-			lin=lin/10000;
-			insert.year=num;
-			num=lin%100;
-			lin=lin/100;
-			insert.month=num;
-			num=lin%100;
-			lin=lin/100;
-			insert.day=num;
-			Cars[i].Rdates.push_back(insert);
-		}		
-	}
-}	
-
-void wrtiteFile(){
-	ofstream fout("decompressed.txt");
-	if (!fout) {
-        	cerr << "Error opening output file!" << endl;
-
-    	}
-	for(int i=0;i<3;i++){
-		for(int k=0; Cars[i].Rdates.size(); k++){
-			fout<<Cars[i].Rdates[k].day<<Cars[i].Rdates[k].month<<Cars[i].Rdates[k].year<<Cars[i].Rdates[k].dayd<<Cars[i].Rdates[k].monthd<<Cars[i].Rdates[k].yeard;
-		}
-		fout<<endl;		
-	}
-	fout.close();
-}*/
-
 int main(){
 	//initializing cars
 	int CarsNumber=3;
@@ -270,12 +220,46 @@ int main(){
 	vector<Car> Cars = {mlka, eshka, sunshine};
 	vector<Car> AvailableCars;
 	
-	//readdile();
+	//start reading file
+	
+	ifstream fin("Rdates.txt");//read start
+	string line;
+	int o, choice;
+	long long lin;
+	if(!fin){
+		cerr<<"Error oppening file!"<<endl;
+	}
+	while(fin>>o){
+		int num;
+		fin>>lin;
+			num=lin%10000;
+			lin=lin/10000;
+			insert.yeard=num;
+			num=lin%100;
+			lin=lin/100;
+			insert.monthd=num;
+			num=lin%100;
+			lin=lin/100;
+			insert.dayd=num;
+			num=lin%10000;
+			lin=lin/10000;
+			insert.year=num;
+			num=lin%100;
+			lin=lin/100;
+			insert.month=num;
+			num=lin%100;
+			lin=lin/100;
+			insert.day=num;
+			Cars[o].Rdates.push_back(insert);		
+	}
+	fin.close();
+	
+	//read end
 	
 	cout<<"Hello, welcome to car rental service!!!"<<endl;
 	while(true){
 			
-			cout<<"1. Book car"<<endl<<"2. Delete reservation"<<endl<<"3. Update reservation for a car"<<endl<<"4. See reservations fo a car"<<endl;
+			cout<<"1. Book car"<<endl<<"2. Delete reservation"<<endl<<"3. Update reservation for a car"<<endl<<"4. See reservations for a car"<<endl;
 			cin>>a;
 			switch(a){
 			case 1:	
@@ -290,8 +274,6 @@ int main(){
 				for(int i=0;i<AvailableCars.size();i++){//showing available cars
 						cout<<i+1<<". "<<AvailableCars[i].model<<endl;
 				}
-				
-				int choice;
 				cout<<endl<<"Choose one!"<<endl;
 				cin>>choice;
 				cout<<"Nice choice "<<AvailableCars[choice-1].model<<endl;
@@ -316,45 +298,18 @@ int main(){
 			case 3:
 				cout<<"Which car reservation you want to update?"<<endl<<"1. Mercedes ML350"<<endl<<"2. Mercedes E320"<<endl<<"3. Mitsubishi Eclipse"<<endl<<"4. Cancel"<<endl;
 				cin>>a;
-				switch(a){
-				case 1:
-					mlka.coutDates();
+					Cars[a-1].coutDates();
 					cout<<"Chose date you want to update"<<endl;
-					cin>>a;
-					mlka.eraseDates(a-1);
+					cin>>b;
+					Cars[a-1].eraseDates(b-1);
 					cout<<"New date:"<<endl;
 					cindate();
-					if(mlka.dateAvailable(insert))
-						mlka.Rdates.push_back(insert);
+					if(Cars[a-1].dateAvailable(insert)){
+						Cars[a-1].Rdates.push_back(insert);
+						cout<<"Date updated succesfullly!"<<endl<<endl;
+					}	
 					else
-						cout<<"Date is reserved";
-							
-				break;
-				case 2:
-					eshka.coutDates();
-					cout<<"Chose date you want to update"<<endl;
-					cin>>a;
-					eshka.eraseDates(a-1);
-					cout<<"New date:"<<endl;
-					cindate();
-					if(eshka.dateAvailable(insert))
-						eshka.Rdates.push_back(insert);
-					else
-						cout<<"Date is reserved";	
-				break;
-				case 3:
-					sunshine.coutDates();
-					cout<<"Chose date you want to update"<<endl;
-					cin>>a;
-					sunshine.eraseDates(a-1);
-					cout<<"New date:"<<endl;
-					cindate();
-					if(sunshine.dateAvailable(insert))
-						sunshine.Rdates.push_back(insert);
-					else
-						cout<<"Date is reserved";	
-				break;			
-				}	
+						cout<<"Date is reserved"<<endl;
 			break;
 			case 4:
 				cout<<"Which car reservation you want to see?"<<endl<<"1. Mercedes ML350"<<endl<<"2. Mercedes E320"<<endl<<"3. Mitsubishi Eclipse"<<endl;
@@ -363,6 +318,44 @@ int main(){
 				Cars[a-1].coutDates();
 				cout<<endl;		
 			}
-	//writefile();				
-	}		
+	
+	//writing to file
+			
+	ofstream fout("Rdates.txt");
+	if (!fout) {
+        	cerr << "Error opening output file!" << endl;
+    	}
+    	for(int i=0;i<3;i++){
+			for(int k=0;k<Cars[i].Rdates.size();k++){
+				fout<<i<<endl;
+				if(Cars[i].Rdates[k].day<10)
+					fout<<0<<Cars[i].Rdates[k].day;
+				else	
+					fout<<Cars[i].Rdates[k].day;
+				if(Cars[i].Rdates[k].month<10)
+					fout<<0<<Cars[i].Rdates[k].month;
+				else	
+					fout<<Cars[i].Rdates[k].month;
+						
+				fout<<Cars[i].Rdates[k].year;
+				
+				if(Cars[i].Rdates[k].dayd<10)
+					fout<<0<<Cars[i].Rdates[k].dayd;
+				else	
+					fout<<Cars[i].Rdates[k].dayd;
+				if(Cars[i].Rdates[k].monthd<10)
+					fout<<0<<Cars[i].Rdates[k].monthd;
+				else	
+					fout<<Cars[i].Rdates[k].monthd;
+				
+				fout<<Cars[i].Rdates[k].yeard<<endl;		
+			}
+		}		
+	fout.close();		
+	//writing to file end
+	
+	}
+	
+	
+			
 }
