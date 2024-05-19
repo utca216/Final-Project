@@ -1,5 +1,7 @@
 # Car rental managing system
 ## Some general information
+The car rental system program serves to facilitate the maintenance of rental records by managers. It displays all reservations and helps you save and edit new ones. It also saves all vehicle databases in a text file, which makes the work continuous after restarting the program.
+
 In current configuration car park consists of a 3 cars: ML350, E320, Eclipse.
 Each car has it own price respectively:200, 150, 110.
 | Model | Price |
