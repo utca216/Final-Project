@@ -22,13 +22,20 @@ As program has functionality to store reservation parameters in file, it reads i
   There is 4 option available:
   + Book car - for booking car type into console 1 and follow instruction on the screen. You will be asked to type desired date of rent to console in format day/month/year. After that program will show list of available cars for your date. You must type in console number of one you want to rent and car will be reserved. Total price will be calculated and displayed in console.
 
-  ![Снимок экрана 2024-05-19 151919](https://github.com/utca216/Final-Project/assets/151619685/1eb0d7db-c469-4a6d-b02b-9d96b5ecb764)
+  ![Снимок экрана 2024-05-19 153636](https://github.com/utca216/Final-Project/assets/151619685/b2ac747a-f3df-4172-ab17-3922e55aac1a)
+
 
   + Delete reservation - for deleting reservation you type in console 2. After that you choose a car which reservations you want to delete, by entering corresponding number into console. The list of dates will be shown from which you pick one you want to delete and program will delete it.
 
 ![Снимок экрана 2024-05-19 152916](https://github.com/utca216/Final-Project/assets/151619685/f681cc8a-6980-4d7a-a16c-afc28eb174da)
 
+  + Update reservation - for updating reservation you type in in console 3. After that you choose a car which reservations you want to update, by entering corresponding number into console. The list of dates will be shown from which you pick one you want to update and program will delete it. Then you will be asked to enter new desired date instead of old one. After entering the date reservation will be updated.
 
+![Снимок экрана 2024-05-19 153254](https://github.com/utca216/Final-Project/assets/151619685/48453e32-1c5d-4428-98fb-9da9a204d2d6)
+
+ + See reservation - for seeing reservation for a car you type in console 4. After that you choose a car which reservations you want to see, by entering corresponding number into console. List of reservations for a car will be shown.
+
+![Снимок экрана 2024-05-19 153503](https://github.com/utca216/Final-Project/assets/151619685/54dc7126-1577-4963-975a-bcbcc5cecf0a)
 
 
 ## Project Requierment list
